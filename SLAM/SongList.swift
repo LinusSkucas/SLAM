@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LaunchAtLogin
 
 struct SongList: View {
     @Environment(\.managedObjectContext) var viewContext
@@ -94,6 +95,7 @@ struct SongList: View {
                             }
                         }
                     }
+                    LaunchAtLogin.Toggle()
                 }
             }
         }

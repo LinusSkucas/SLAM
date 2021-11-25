@@ -16,6 +16,8 @@
 		1551EB4E274F4BC400A0BFA2 /* Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551EB4D274F4BC400A0BFA2 /* Persistance.swift */; };
 		1551EB54274F4E2500A0BFA2 /* Song+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551EB53274F4E2500A0BFA2 /* Song+CoreDataProperties.swift */; };
 		1551EB56274F734200A0BFA2 /* SongList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551EB55274F734200A0BFA2 /* SongList.swift */; };
+		1551EB592750583300A0BFA2 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 1551EB582750583300A0BFA2 /* LaunchAtLogin */; };
+		1551EB742750A9D600A0BFA2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1551EB732750A9D500A0BFA2 /* Credits.rtf */; };
 		15F9A0FC274F164400ECAD62 /* IntroViewInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9A0FB274F164400ECAD62 /* IntroViewInstruction.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +34,7 @@
 		1551EB4D274F4BC400A0BFA2 /* Persistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistance.swift; sourceTree = "<group>"; };
 		1551EB53274F4E2500A0BFA2 /* Song+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Song+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1551EB55274F734200A0BFA2 /* SongList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongList.swift; sourceTree = "<group>"; };
+		1551EB732750A9D500A0BFA2 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		15F9A0FB274F164400ECAD62 /* IntroViewInstruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewInstruction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -40,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1551EB592750583300A0BFA2 /* LaunchAtLogin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +69,7 @@
 		1533FB712748A61200C6527A /* SLAM */ = {
 			isa = PBXGroup;
 			children = (
+				1551EB732750A9D500A0BFA2 /* Credits.rtf */,
 				1533FB832749F8A800C6527A /* Info.plist */,
 				1533FB722748A61200C6527A /* SLAMApp.swift */,
 				1551EB55274F734200A0BFA2 /* SongList.swift */,
@@ -99,12 +104,16 @@
 				1533FB6B2748A61200C6527A /* Sources */,
 				1533FB6C2748A61200C6527A /* Frameworks */,
 				1533FB6D2748A61200C6527A /* Resources */,
+				1551EB5A2750585000A0BFA2 /* Copy "Launch at Login Helper" */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = SLAM;
+			packageProductDependencies = (
+				1551EB582750583300A0BFA2 /* LaunchAtLogin */,
+			);
 			productName = SLAM;
 			productReference = 1533FB6F2748A61200C6527A /* SLAM.app */;
 			productType = "com.apple.product-type.application";
@@ -133,6 +142,9 @@
 				Base,
 			);
 			mainGroup = 1533FB662748A61200C6527A;
+			packageReferences = (
+				1551EB572750583200A0BFA2 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+			);
 			productRefGroup = 1533FB702748A61200C6527A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -148,11 +160,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				1533FB7A2748A61600C6527A /* Preview Assets.xcassets in Resources */,
+				1551EB742750A9D600A0BFA2 /* Credits.rtf in Resources */,
 				1533FB772748A61600C6527A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1551EB5A2750585000A0BFA2 /* Copy "Launch at Login Helper" */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy \"Launch at Login Helper\"";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1533FB6B2748A61200C6527A /* Sources */ = {
@@ -370,6 +404,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1551EB572750583200A0BFA2 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1551EB582750583300A0BFA2 /* LaunchAtLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1551EB572750583200A0BFA2 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			productName = LaunchAtLogin;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		1551EB26274F493900A0BFA2 /* SLAM.xcdatamodeld */ = {

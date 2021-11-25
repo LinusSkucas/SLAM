@@ -7,7 +7,7 @@
 
 import SwiftUI
 import AVFoundation
-
+import LaunchAtLogin
 
 struct IntroView: View {
     @State private var step: IntroStep = .welcome
@@ -27,6 +27,7 @@ struct IntroView: View {
                     AVCaptureDevice.requestAccess(for: .audio) { granted in
                         guard granted else { fatalError("Did not agree") }
                         step = .instructions
+                        LaunchAtLogin.isEnabled = true
                     }
                 }
                 .padding()
