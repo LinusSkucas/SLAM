@@ -15,6 +15,7 @@
 		1551EB2B274F49CC00A0BFA2 /* Song+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551EB29274F49CC00A0BFA2 /* Song+CoreDataClass.swift */; };
 		1551EB4E274F4BC400A0BFA2 /* Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551EB4D274F4BC400A0BFA2 /* Persistance.swift */; };
 		1551EB54274F4E2500A0BFA2 /* Song+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551EB53274F4E2500A0BFA2 /* Song+CoreDataProperties.swift */; };
+		1551EB56274F734200A0BFA2 /* SongList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551EB55274F734200A0BFA2 /* SongList.swift */; };
 		15F9A0FC274F164400ECAD62 /* IntroViewInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9A0FB274F164400ECAD62 /* IntroViewInstruction.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,7 @@
 		1551EB29274F49CC00A0BFA2 /* Song+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Song+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1551EB4D274F4BC400A0BFA2 /* Persistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistance.swift; sourceTree = "<group>"; };
 		1551EB53274F4E2500A0BFA2 /* Song+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Song+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1551EB55274F734200A0BFA2 /* SongList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongList.swift; sourceTree = "<group>"; };
 		15F9A0FB274F164400ECAD62 /* IntroViewInstruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewInstruction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,6 +67,7 @@
 			children = (
 				1533FB832749F8A800C6527A /* Info.plist */,
 				1533FB722748A61200C6527A /* SLAMApp.swift */,
+				1551EB55274F734200A0BFA2 /* SongList.swift */,
 				1533FB812749F6A100C6527A /* IntroView.swift */,
 				15F9A0FB274F164400ECAD62 /* IntroViewInstruction.swift */,
 				1551EB29274F49CC00A0BFA2 /* Song+CoreDataClass.swift */,
@@ -160,6 +163,7 @@
 				15F9A0FC274F164400ECAD62 /* IntroViewInstruction.swift in Sources */,
 				1551EB54274F4E2500A0BFA2 /* Song+CoreDataProperties.swift in Sources */,
 				1551EB2B274F49CC00A0BFA2 /* Song+CoreDataClass.swift in Sources */,
+				1551EB56274F734200A0BFA2 /* SongList.swift in Sources */,
 				1533FB732748A61200C6527A /* SLAMApp.swift in Sources */,
 				1551EB28274F493900A0BFA2 /* SLAM.xcdatamodeld in Sources */,
 				1533FB822749F6A100C6527A /* IntroView.swift in Sources */,

@@ -16,10 +16,21 @@ enum MusicStatus: String {
     case error = "questionmark.square.dashed"
 }
 
+// Thanks: https://www.jessesquires.com/blog/2019/08/15/implementing-right-click-for-nsbutton/
+extension NSEvent {
+    var isRightClick: Bool {
+        let rightClick = (self.type == .rightMouseDown)
+        let controlClick = self.modifierFlags.contains(.control)
+        return rightClick || controlClick
+    }
+}
+
 class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
     
     var statusBarItem: NSStatusItem!
     var introWindow: NSWindow?
+    var mainWindow: NSWindow!
+    var openedWindowCount = 0
     
     let session = SHSession()
     let audioEngine = AVAudioEngine()
@@ -33,6 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
         if let button = statusBarItem.button {
             button.image = NSImage(systemSymbolName: MusicStatus.ready.rawValue, accessibilityDescription: "Music note")
             button.action = #selector(startSlamIt(_:))
+            button.sendAction(on: [.leftMouseDown, .rightMouseDown])
         }
         
         guard !UserDefaults.standard.bool(forKey: "seenIntro") else { return }  // TODO: also check for mic permissions
@@ -51,21 +63,49 @@ class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
         introWindow.makeKeyAndOrderFront(nil)
         introWindow.makeFirstResponder(nil)
         NotificationCenter.default.addObserver(self, selector: #selector(closeIntroWindow(_:)), name: .closeTheThing, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(closeMainWindow(_:)), name: .closeTheMainThing, object: nil)
     }
     
     func applicationWillTerminate(_ notification: Notification) {
         NotificationCenter.default.removeObserver(self, name: .closeTheThing, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .closeTheMainThing, object: nil)
     }
     
     
     @objc func startSlamIt(_ sender: NSStatusBarButton) {
-        DispatchQueue.main.async {
-            self.statusBarItem.button?.image = NSImage(systemSymbolName: MusicStatus.listening.rawValue, accessibilityDescription: "gears")
-        }
-        toggleMic()
+        if let event = NSApp.currentEvent,
+            event.isRightClick {
+             createMainWindow()
+         } else {
+             DispatchQueue.main.async {
+                 self.statusBarItem.button?.image = NSImage(systemSymbolName: MusicStatus.listening.rawValue, accessibilityDescription: "gears")
+             }
+             toggleMic()
+         }
+    }
+    
+    func createMainWindow() {
+//        guard mainWindow == nil else {
+//            return
+//        }
+        mainWindow = SLAMWindow(contentRect: NSRect(x: 0, y: 0, width: 300, height: 500),
+                                styleMask: [.closable],
+                                backing: .buffered, defer: false)
+        guard let mainWindow = mainWindow else { return }
+        mainWindow.isReleasedWhenClosed = false
+        mainWindow.backgroundColor = .clear
+        mainWindow.isMovableByWindowBackground = true
+        mainWindow.animationBehavior = .documentWindow
+        mainWindow.setFrameAutosaveName("Main Window")
+        mainWindow.contentView = NSHostingView(rootView: SongList())
+        mainWindow.level = .floating  // lol
+        mainWindow.center()
+        mainWindow.makeKeyAndOrderFront(nil)
+        mainWindow.makeFirstResponder(nil)
     }
     
     func session(_ session: SHSession, didFind match: SHMatch) {
+        print("match")
         guard let matchItem = match.mediaItems.first else {
             statusBarItem.button?.image = NSImage(systemSymbolName: MusicStatus.error.rawValue, accessibilityDescription: "Error")
             self.returnToNormalIcon()
@@ -124,6 +164,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
     
     @objc func closeIntroWindow(_ notification: Notification) {
         introWindow?.close()
+    }
+    
+    @objc func closeMainWindow(_ notification: Notification) {
+        mainWindow?.close()
+        openedWindowCount += 1
     }
 }
 
