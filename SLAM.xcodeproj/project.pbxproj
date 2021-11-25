@@ -10,6 +10,7 @@
 		1533FB732748A61200C6527A /* SLAMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1533FB722748A61200C6527A /* SLAMApp.swift */; };
 		1533FB772748A61600C6527A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1533FB762748A61600C6527A /* Assets.xcassets */; };
 		1533FB7A2748A61600C6527A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1533FB792748A61600C6527A /* Preview Assets.xcassets */; };
+		1533FB822749F6A100C6527A /* IntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1533FB812749F6A100C6527A /* IntroView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +19,8 @@
 		1533FB762748A61600C6527A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1533FB792748A61600C6527A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1533FB7B2748A61600C6527A /* SLAM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SLAM.entitlements; sourceTree = "<group>"; };
+		1533FB812749F6A100C6527A /* IntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroView.swift; sourceTree = "<group>"; };
+		1533FB832749F8A800C6527A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +53,9 @@
 		1533FB712748A61200C6527A /* SLAM */ = {
 			isa = PBXGroup;
 			children = (
+				1533FB832749F8A800C6527A /* Info.plist */,
 				1533FB722748A61200C6527A /* SLAMApp.swift */,
+				1533FB812749F6A100C6527A /* IntroView.swift */,
 				1533FB762748A61600C6527A /* Assets.xcassets */,
 				1533FB7B2748A61600C6527A /* SLAM.entitlements */,
 				1533FB782748A61600C6527A /* Preview Content */,
@@ -137,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1533FB732748A61200C6527A /* SLAMApp.swift in Sources */,
+				1533FB822749F6A100C6527A /* IntroView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,11 +278,13 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SLAM/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = sh.linus.SLAM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -299,11 +307,13 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SLAM/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = sh.linus.SLAM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
