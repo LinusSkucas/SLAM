@@ -6,22 +6,37 @@
 //
 
 import SwiftUI
-import SpriteKit
+import ShazamKit
+import AVFoundation
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+enum MusicStatus: String {
+    case ready = "music.note"
+    case listening = "gearshape.2"
+    case found = "ear"
+    case error = "questionmark.square.dashed"
+}
+
+class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
     
     var statusBarItem: NSStatusItem!
     var introWindow: NSWindow?
     
+    let session = SHSession()
+    let audioEngine = AVAudioEngine()
+    let signatureGenerator = SHSignatureGenerator()
+
+    
     func applicationDidFinishLaunching(_ notification: Notification) {
+        session.delegate = self
+        
         statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.squareLength))
         if let button = statusBarItem.button {
-            button.title = "🍗"
+            button.image = NSImage(systemSymbolName: MusicStatus.ready.rawValue, accessibilityDescription: "Music note")
             button.action = #selector(startSlamIt(_:))
         }
         
         guard !UserDefaults.standard.bool(forKey: "seenIntro") else { return }  // TODO: also check for mic permissions
-        introWindow = SLAMWindow(contentRect: NSRect(x: 0, y: 0, width: 480, height: 200),
+        introWindow = SLAMWindow(contentRect: NSRect(x: 0, y: 0, width: 300, height: 200),
                                  styleMask: [],
                                  backing: .buffered, defer: false)
         guard let introWindow = introWindow else { return }
@@ -31,21 +46,93 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         introWindow.animationBehavior = .alertPanel
         introWindow.setFrameAutosaveName("Introduction Window")
         introWindow.contentView = NSHostingView(rootView: IntroView())
-        introWindow.level = .dock  // lol
+        introWindow.level = .floating  // lol
         introWindow.center()
         introWindow.makeKeyAndOrderFront(nil)
         introWindow.makeFirstResponder(nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(closeIntroWindow(_:)), name: .closeTheThing, object: nil)
     }
     
     func applicationWillTerminate(_ notification: Notification) {
+        NotificationCenter.default.removeObserver(self, name: .closeTheThing, object: nil)
     }
     
     
     @objc func startSlamIt(_ sender: NSStatusBarButton) {
+        DispatchQueue.main.async {
+            self.statusBarItem.button?.image = NSImage(systemSymbolName: MusicStatus.listening.rawValue, accessibilityDescription: "gears")
+        }
+        toggleMic()
+    }
+    
+    func session(_ session: SHSession, didFind match: SHMatch) {
+        guard let matchItem = match.mediaItems.first else {
+            statusBarItem.button?.image = NSImage(systemSymbolName: MusicStatus.error.rawValue, accessibilityDescription: "Error")
+            self.returnToNormalIcon()
+            return
+        }
+
+        let newItem = Song(context: PersistenceController.shared.container.viewContext)
+        newItem.title = matchItem.title ?? ""
+        newItem.artist = matchItem.artist ?? ""
+        newItem.artworkURL = matchItem.artworkURL
+        newItem.appleMusicID = matchItem.appleMusicID ?? ""
+        try! PersistenceController.shared.container.viewContext.save()
+        toggleMic()
+        DispatchQueue.main.async {
+            self.statusBarItem.button?.image = NSImage(systemSymbolName: MusicStatus.found.rawValue, accessibilityDescription: "Ear")
+            self.returnToNormalIcon()
+        }
+    }
+    
+    func toggleMic() {
+        guard !audioEngine.isRunning else {
+            audioEngine.stop()
+            return
+        }
         
+        let input = audioEngine.inputNode
+        let bus = 0
+        input.removeTap(onBus: bus)
+
+        let inputFormat = input.inputFormat(forBus: bus)
+        
+        input.installTap(onBus: bus, bufferSize: 1024, format: inputFormat) { buffer, time in
+            self.session.matchStreamingBuffer(buffer, at: time)
+        }
+        
+        audioEngine.prepare()
+        try! audioEngine.start()
+    }
+    
+    func returnToNormalIcon() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.statusBarItem.button?.image = NSImage(systemSymbolName: MusicStatus.ready.rawValue, accessibilityDescription: "Error")
+        }
+    }
+    
+    func session(_ session: SHSession, didNotFindMatchFor signature: SHSignature, error: Error?) {
+        print("error")
+        print(error?.localizedDescription)
+        DispatchQueue.main.async {
+            self.statusBarItem.button?.image = NSImage(systemSymbolName: MusicStatus.error.rawValue, accessibilityDescription: "Error")
+            self.returnToNormalIcon()
+        }
+
+        toggleMic()
+    }
+    
+    @objc func closeIntroWindow(_ notification: Notification) {
+        introWindow?.close()
     }
 }
 
+/// lol not sorry
+class SLAMWindow: NSWindow {
+    override var canBecomeKey: Bool {
+        true
+    }
+}
 
 @main
 struct SLAMApp: App {

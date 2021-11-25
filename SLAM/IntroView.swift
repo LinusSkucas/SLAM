@@ -6,35 +6,8 @@
 //
 
 import SwiftUI
+import AVFoundation
 
-enum IntroStep {
-    case welcome
-    case mic
-    case instructions
-}
-
-struct IntroViewInstruction: View {
-    var title: String
-    var description: String
-    var image: Image
-    var nextButtonLabel: String
-    var nextButtonAction: (() -> Void)
-    
-    var body: some View {
-        HStack {
-            image
-            VStack {
-                Text(title)
-                    .font(.title)
-                Text(description)
-                    .font(.caption)
-                Button(action: nextButtonAction) {
-                    Text(nextButtonLabel)
-                }
-            }
-        }
-    }
-}
 
 struct IntroView: View {
     @State private var step: IntroStep = .welcome
@@ -49,17 +22,28 @@ struct IntroView: View {
                     step = .mic
                 }
             case .mic:
-                IntroViewInstruction(title: "Mic Check", description: "Give SLAM mic permissions so we can listen in on your private conversations with Siri. Oh, and listen to music for you.", image: Image(systemName: "music.mic"), nextButtonLabel: "Auth") {
+                IntroViewInstruction(title: "Mic Check", description: "Give SLAM mic permissions so we can listen in on your private conversations with Siri. Oh, and listen to music for you.\n(Don't think of think of this as signing your rights away; just think of it as an extension to the irreversable contracts you've already signed agreeing to the same thing)", image: Image(systemName: "music.mic"), nextButtonLabel: "Authorize...") {
                     print("authorize")
-                    step = .instructions
+                    AVCaptureDevice.requestAccess(for: .audio) { granted in
+                        guard granted else { fatalError("Did not agree") }
+                        step = .instructions
+                    }
                 }
+                .padding()
             case .instructions:
                 IntroViewInstruction(title: "What?", description: "Use the menu bar icon.\n1 click to shazam.\n2 clicks to see history and preferences.", image: Image(systemName: "music.note.list"), nextButtonLabel: "Done!") {
-//                    UserDefaults.standard.set(true, forKey: "seenIntro")
+                    NotificationCenter.default.post(name: .closeTheThing, object: nil)
+                    #if !DEBUG
+                    UserDefaults.standard.set(true, forKey: "seenIntro")
+                    #endif
                 }
             }
         }
     }
+}
+
+extension Notification.Name {
+    static let closeTheThing = Notification.Name("closeTheThing")
 }
 
 
