@@ -16,32 +16,57 @@ struct SongList: View {
     var body: some View {
         ZStack {
             VisualEffectBackground()
-            ScrollView {
-                VStack(alignment: .leading) {
-                    HStack {
-                        Button {
-//                        NotificationCenter.default.post(name: .closeTheMainThing, object: nil)
-                            window.close()
-                        } label: {
-                            Image(systemName: "xmark")
-                                .symbolVariant(.fill.circle)
-                        }
-                        .buttonStyle(.borderless)
-                        .keyboardShortcut("w", modifiers: .command)
-                        .contextMenu {
-                            Button(role: .destructive) {
-                                NSApp.terminate(nil)
-                            } label: {
-                                Text("Quit SLAM")
-                            }
-                        }
-                        Spacer()
+            VStack(alignment: .leading) {
+                HStack {
+                    Button {
+                        window.close()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .symbolVariant(.fill.circle)
                     }
-                    .padding(3)
-                    
+                    .buttonStyle(.borderless)
+                    .keyboardShortcut("w", modifiers: .command)
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            NSApp.terminate(nil)
+                        } label: {
+                            Text("Quit SLAM")
+                        }
+                    }
+                    Spacer()
+                }
+                .padding(3)
+                ScrollView {
                     ForEach(songs) { song in
-                        VStack {
-                            Text(song.title ?? "")
+                        VStack(alignment: .leading) {
+                            HStack(alignment: .top) {
+                                AsyncImage(url: song.artworkURL) { image in
+                                    image
+                                        .resizable()
+                                        .frame(width: 50, height: 50)
+                                        .aspectRatio(contentMode: .fit)
+                                        .cornerRadius(8)
+                                } placeholder: {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .fill(Color.gray.opacity(0.75))
+                                            .frame(width: 50, height: 50)
+                                            .redacted(reason: .placeholder)
+                                        ProgressView()
+                                            .progressViewStyle(.circular)
+                                    }
+                                }
+                                
+                                VStack(alignment: .leading) {
+                                    Text(song.title ?? "")
+                                        .font(.title2)
+                                    Text(song.artist ?? "")
+                                        .font(.caption)
+                                        .textCase(.uppercase)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            .padding(.horizontal)
                             Divider()
                         }.contextMenu {// TODO: Heard on timestamp, copy name, copy artist name, copy both, divider, then delete
                             Text("Heard on \(song.timestamp!, formatter: itemFormatter)")
