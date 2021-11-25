@@ -97,7 +97,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
         mainWindow.isMovableByWindowBackground = true
         mainWindow.animationBehavior = .documentWindow
         mainWindow.setFrameAutosaveName("Main Window")
-        mainWindow.contentView = NSHostingView(rootView: SongList())
+        mainWindow.contentView = NSHostingView(rootView: SongList(window: mainWindow))
         mainWindow.level = .floating  // lol
         mainWindow.center()
         mainWindow.makeKeyAndOrderFront(nil)
@@ -117,6 +117,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
         newItem.artist = matchItem.artist ?? ""
         newItem.artworkURL = matchItem.artworkURL
         newItem.appleMusicID = matchItem.appleMusicID ?? ""
+        newItem.timestamp = Date()
         try! PersistenceController.shared.container.viewContext.save()
         toggleMic()
         DispatchQueue.main.async {
