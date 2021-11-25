@@ -20,6 +20,7 @@ extension Song {
     @NSManaged public var artist: String?
     @NSManaged public var artworkURL: URL?
     @NSManaged public var appleMusicID: String?
+    @NSManaged public var timestamp: Date?
 
 }
 

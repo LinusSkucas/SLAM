@@ -4,9 +4,10 @@
         <attribute name="appleMusicID" optional="YES" attributeType="String"/>
         <attribute name="artist" optional="YES" attributeType="String"/>
         <attribute name="artworkURL" optional="YES" attributeType="URI"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Song" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="Song" positionX="-63" positionY="-18" width="128" height="118"/>
     </elements>
 </model>
