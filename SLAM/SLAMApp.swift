@@ -97,7 +97,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
         mainWindow.isMovableByWindowBackground = true
         mainWindow.animationBehavior = .documentWindow
         mainWindow.setFrameAutosaveName("Main Window")
-        mainWindow.contentView = NSHostingView(rootView: SongList(window: mainWindow))
+        mainWindow.contentView = NSHostingView(rootView: SongList(window: mainWindow).environment(\.managedObjectContext, PersistenceController.shared.container.viewContext))
         mainWindow.level = .floating  // lol
         mainWindow.center()
         mainWindow.makeKeyAndOrderFront(nil)
