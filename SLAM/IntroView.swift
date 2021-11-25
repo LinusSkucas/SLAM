@@ -31,7 +31,7 @@ struct IntroView: View {
                 }
                 .padding()
             case .instructions:
-                IntroViewInstruction(title: "What?", description: "Use the menu bar icon.\n1 click to shazam.\n2 clicks to see history and preferences.", image: Image(systemName: "music.note.list"), nextButtonLabel: "Done!") {
+                IntroViewInstruction(title: "What?", description: "Use the menu bar icon.\nClick to shazam.\nRight click to see history and preferences.", image: Image(systemName: "music.note.list"), nextButtonLabel: "Done!") {
                     NotificationCenter.default.post(name: .closeTheThing, object: nil)
                     #if !DEBUG
                     UserDefaults.standard.set(true, forKey: "seenIntro")
