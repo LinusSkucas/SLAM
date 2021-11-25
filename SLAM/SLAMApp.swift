@@ -169,6 +169,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
     @objc func closeMainWindow(_ notification: Notification) {
         mainWindow?.close()
         openedWindowCount += 1
+        
+        if openedWindowCount >= 10 {  // lol
+            let task = Process()
+            var args = [String]()
+            args.append("-c")
+            let bundle = Bundle.main.bundlePath
+            args.append("sleep 0.2; open \"\(bundle)\"")
+            task.launchPath = "/bin/sh"
+            task.arguments = args
+            task.launch()
+            NSApplication.shared.terminate(nil)
+        }
     }
 }
 
