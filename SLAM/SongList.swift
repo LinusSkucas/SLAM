@@ -41,23 +41,33 @@ struct SongList: View {
                     ForEach(songs) { song in
                         VStack(alignment: .leading) {
                             HStack(alignment: .top) {
-                                AsyncImage(url: song.artworkURL) { image in
-                                    image
-                                        .resizable()
-                                        .frame(width: 50, height: 50)
-                                        .aspectRatio(contentMode: .fit)
-                                        .cornerRadius(8)
-                                } placeholder: {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .fill(Color.gray.opacity(0.75))
+                                AsyncImage(url: song.artworkURL) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
                                             .frame(width: 50, height: 50)
-                                            .redacted(reason: .placeholder)
-                                        ProgressView()
-                                            .progressViewStyle(.circular)
+                                            .aspectRatio(contentMode: .fit)
+                                            .cornerRadius(8)
+                                    } else if phase.error != nil || song.artworkURL == nil {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .fill(Color.gray.opacity(0.75))
+                                                .frame(width: 50, height: 50)
+                                                .redacted(reason: .placeholder)
+                                            Image(systemName: "questionmark.square.dashed")
+                                                .font(.title)
+                                        }
+                                    } else {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .fill(Color.gray.opacity(0.75))
+                                                .frame(width: 50, height: 50)
+                                                .redacted(reason: .placeholder)
+                                            ProgressView()
+                                                .progressViewStyle(.circular)
+                                        }
                                     }
                                 }
-                                
                                 VStack(alignment: .leading) {
                                     Text(song.title ?? "")
                                         .font(.title2)
