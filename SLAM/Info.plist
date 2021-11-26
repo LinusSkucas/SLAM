@@ -2,9 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>INIntentsSupported</key>
+	<array>
+		<string>StartSLAMIntent</string>
+	</array>
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>SLAM needs to use the microphone to listen to music.</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>StartSLAMIntent</string>
+	</array>
 </dict>
 </plist>

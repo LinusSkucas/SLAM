@@ -8,6 +8,8 @@
 import SwiftUI
 import ShazamKit
 import AVFoundation
+import Intents
+import os.log
 
 enum MusicStatus: String {
     case ready = "music.note"
@@ -47,6 +49,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
             button.sendAction(on: [.leftMouseDown, .rightMouseDown])
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(closeIntroWindow(_:)), name: .closeTheThing, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(closeMainWindow(_:)), name: .closeTheMainThing, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(toggleMicFromShortcut(_:)), name: .toggleMic, object: nil)
+        
         guard !UserDefaults.standard.bool(forKey: "seenIntro") else { return }  // TODO: also check for mic permissions
         introWindow = SLAMWindow(contentRect: NSRect(x: 0, y: 0, width: 300, height: 200),
                                  styleMask: [],
@@ -62,24 +68,32 @@ class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
         introWindow.center()
         introWindow.makeKeyAndOrderFront(nil)
         introWindow.makeFirstResponder(nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(closeIntroWindow(_:)), name: .closeTheThing, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(closeMainWindow(_:)), name: .closeTheMainThing, object: nil)
+    }
+    
+    @objc func toggleMicFromShortcut(_ notification: Notification) {
+        toggleMic()
     }
     
     func applicationWillTerminate(_ notification: Notification) {
         NotificationCenter.default.removeObserver(self, name: .closeTheThing, object: nil)
         NotificationCenter.default.removeObserver(self, name: .closeTheMainThing, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .toggleMic, object: nil)
     }
     
+    func application(_ application: NSApplication, handlerFor intent: INIntent) -> Any? {
+        switch intent {
+        case is StartSLAMIntent:
+            return StartSLAMIntentHandler()
+        default:
+            return nil
+        }
+    }
     
     @objc func startSlamIt(_ sender: NSStatusBarButton) {
         if let event = NSApp.currentEvent,
             event.isRightClick {
              createMainWindow()
          } else {
-             DispatchQueue.main.async {
-                 self.statusBarItem.button?.image = NSImage(systemSymbolName: MusicStatus.listening.rawValue, accessibilityDescription: "gears")
-             }
              toggleMic()
          }
     }
@@ -98,7 +112,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
         mainWindow.animationBehavior = .documentWindow
         mainWindow.setFrameAutosaveName("Main Window")
         mainWindow.contentView = NSHostingView(rootView: SongList(window: mainWindow).environment(\.managedObjectContext, PersistenceController.shared.container.viewContext))
-        mainWindow.level = .floating  // lol
+        mainWindow.level = .dock  // lol
         mainWindow.center()
         mainWindow.makeKeyAndOrderFront(nil)
         mainWindow.makeFirstResponder(nil)
@@ -127,8 +141,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, SHSessionDelegate {
     }
     
     func toggleMic() {
+        DispatchQueue.main.async {
+            self.statusBarItem.button?.image = NSImage(systemSymbolName: MusicStatus.listening.rawValue, accessibilityDescription: "gears")
+        }
         guard !audioEngine.isRunning else {
             audioEngine.stop()
+            self.returnToNormalIcon()
             return
         }
         

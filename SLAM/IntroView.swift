@@ -46,6 +46,7 @@ struct IntroView: View {
 extension Notification.Name {
     static let closeTheThing = Notification.Name("closeTheThing")
     static let closeTheMainThing = Notification.Name("closeTheMainThing")
+    static let toggleMic = Notification.Name("toggleMic")
 }
 
 

@@ -18,6 +18,8 @@
 		1551EB56274F734200A0BFA2 /* SongList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551EB55274F734200A0BFA2 /* SongList.swift */; };
 		1551EB592750583300A0BFA2 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 1551EB582750583300A0BFA2 /* LaunchAtLogin */; };
 		1551EB742750A9D600A0BFA2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1551EB732750A9D500A0BFA2 /* Credits.rtf */; };
+		1551EB762751429A00A0BFA2 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 1551EB752751429A00A0BFA2 /* Intents.intentdefinition */; };
+		1551EB78275151DC00A0BFA2 /* StartSLAMindentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551EB77275151DC00A0BFA2 /* StartSLAMindentHandler.swift */; };
 		15F9A0FC274F164400ECAD62 /* IntroViewInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9A0FB274F164400ECAD62 /* IntroViewInstruction.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +37,8 @@
 		1551EB53274F4E2500A0BFA2 /* Song+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Song+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1551EB55274F734200A0BFA2 /* SongList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongList.swift; sourceTree = "<group>"; };
 		1551EB732750A9D500A0BFA2 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		1551EB752751429A00A0BFA2 /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
+		1551EB77275151DC00A0BFA2 /* StartSLAMindentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSLAMindentHandler.swift; sourceTree = "<group>"; };
 		15F9A0FB274F164400ECAD62 /* IntroViewInstruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewInstruction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -73,6 +77,8 @@
 				1533FB832749F8A800C6527A /* Info.plist */,
 				1533FB722748A61200C6527A /* SLAMApp.swift */,
 				1551EB55274F734200A0BFA2 /* SongList.swift */,
+				1551EB752751429A00A0BFA2 /* Intents.intentdefinition */,
+				1551EB77275151DC00A0BFA2 /* StartSLAMindentHandler.swift */,
 				1533FB812749F6A100C6527A /* IntroView.swift */,
 				15F9A0FB274F164400ECAD62 /* IntroViewInstruction.swift */,
 				1551EB29274F49CC00A0BFA2 /* Song+CoreDataClass.swift */,
@@ -196,10 +202,12 @@
 				1551EB4E274F4BC400A0BFA2 /* Persistance.swift in Sources */,
 				15F9A0FC274F164400ECAD62 /* IntroViewInstruction.swift in Sources */,
 				1551EB54274F4E2500A0BFA2 /* Song+CoreDataProperties.swift in Sources */,
+				1551EB762751429A00A0BFA2 /* Intents.intentdefinition in Sources */,
 				1551EB2B274F49CC00A0BFA2 /* Song+CoreDataClass.swift in Sources */,
 				1551EB56274F734200A0BFA2 /* SongList.swift in Sources */,
 				1533FB732748A61200C6527A /* SLAMApp.swift in Sources */,
 				1551EB28274F493900A0BFA2 /* SLAM.xcdatamodeld in Sources */,
+				1551EB78275151DC00A0BFA2 /* StartSLAMindentHandler.swift in Sources */,
 				1533FB822749F6A100C6527A /* IntroView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,6 +347,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SLAM/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "SLAM needs to use the microphone to listen to music.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -369,6 +378,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SLAM/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "SLAM needs to use the microphone to listen to music.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
