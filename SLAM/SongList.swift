@@ -96,6 +96,11 @@ struct SongList: View {
                         }
                     }
                     LaunchAtLogin.Toggle()
+                    Button("Credits") {
+                        NSApp.orderFrontStandardAboutPanel(nil)
+                    }
+                    .font(.caption)
+                    .buttonStyle(.borderless)
                 }
             }
         }
